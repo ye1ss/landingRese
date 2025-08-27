@@ -28,7 +28,7 @@ h1{
   }
   
 
-.btn{
+.btnPrueba{
     margin-top: 30px;
     background-color: #7aabfb;
     color: white;
@@ -37,7 +37,7 @@ h1{
     transition: transform 0.2s ease-in-out;
     font-size: 18px;
 }
-.btn:hover{
+.btnPrueba:hover{
     cursor: pointer;
     transform: scale(1.1);
 }
@@ -106,10 +106,16 @@ h1{
   }
   
   .paso img {
-    width: 100%;
+    width: 60%;
     height: auto;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    
+  }
+
+  .CtaFinal{
+    margin-top: 8px;
+    margin-bottom: 20px;
   }
 
   /* --- Responsive --- */
@@ -126,7 +132,7 @@ h1{
         grid-template-columns: 1fr; /* pasa a una sola columna */
       }
     .pasos-container {
-        flex-direction: column;
+        flex-direction: column, center;
         justify-content: center;
     }
   }
