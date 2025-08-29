@@ -1,106 +1,143 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Automatizar Reseñas</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Automatizar Reseñas</title>
 </head>
 
 <body>
-  <h1>RESPONDE TUS RESEÑAS AUTOMÁTICAMENTE</h1>
-  <div class="contenedor">
-    <div class="texto">
-      <h3>¿Las estás respondiendo bien?</h3>
-      <p>
-        Respondemos automáticamente todas tus reseñas online con el tono ideal,
-        para que mejores tu reputación sin perder tiempo.
-      </p>
+
+    <!--FORMULARIO-->
+    <div id="formularioOverlay" class="overlay oculto">
+        <div class="formulario-popup">
+            <button id="cerrarFormulario" class="cerrar">x</button>
+            <h2>Acceso a beta gratuito</h2>
+            <form id="leadForm">
+                <label for="nombre">Nombre</label>
+                <input type="text" id="nombre" name="nombre" required>
+
+                <label for="correo">Correo electrónico</label>
+                <input type="email" id="correo" name="correo" required>
+
+                <label for="pais">País</label>
+                <input type="text" id="pais" name="pais" required>
+
+                <button type="submit">Enviar</button>
+            </form>
+        </div>
     </div>
-    <div class="imagen">
-      <img src="img/imgRese.png" alt="Imagen representativa" />
-    </div>
-  </div>
 
-  <button id="abrirFormulario" class="btnPrueba">PRUEBA GRATIS</button>
+    <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const overlay = document.getElementById("formularioOverlay");
+    const cerrar = document.getElementById("cerrarFormulario");
+    const abrir1 = document.getElementById("abrirFormulario");
+    const abrir2 = document.getElementById("abrirFormulario2");
 
-  <div class="info">
-    <section class="problema-solucion">
-      <div class="item problema">
-        <h4>Ignorar reseñas cuesta clientes</h4>
-        <ul>
-          <li>El 87 % de los comensales lee reseñas antes de reservar.</li>
-          <li>Si no respondés o lo hacés mal, perdés confianza, visibilidad y ventas.</li>
-        </ul>
-      </div>
-      <div class="item solucion">
-        <h4>Respuestas automáticas, profesionales y con tu estilo.</h4>
-        <ul>
-          <li>Detectamos cada nueva reseña en Google.</li>
-          <li>La clasificamos (positiva, neutra, negativa).</li>
-          <li>Generamos una respuesta personalizada y respetuosa.</li>
-          <li>Vos la aprobás o la enviamos directo, según el plan.</li>
-        </ul>
-      </div>
-    </section>
-  </div>
-
-  <section class="pasos-container">
-    <div class="paso">
-      <img src="img/cromo.png" alt="Conectás tu perfil de Google" />
-      <p>1. Conectás tu perfil de Google.</p>
-    </div>
-    <div class="paso">
-      <img src="img/mensaje.png" alt="Elegís el tono de tus respuestas" />
-      <p>2. Elegís el tono de tus respuestas.</p>
-    </div>
-    <div class="paso">
-      <img src="img/servicio-al-cliente.png" alt="Nosotros respondemos por vos" />
-      <p>3. Nosotros respondemos por vos.</p>
-    </div>
-  </section>
-
-  <div class="CtaFinal">
-    <button id="abrirFormulario2" class="btnPrueba">Probalo gratis antes del lanzamiento</button>
-  </div>
-
-  <!-- POPUP FORMULARIO -->
-  <div id="formularioOverlay" class="overlay oculto">
-    <div class="formulario-popup">
-      <button id="cerrarFormulario" class="cerrar">×</button>
-      <h2>Acceso beta gratuito</h2>
-      <form>
-        <label for="nombre">Nombre</label>
-        <input type="text" id="nombre" name="nombre" required />
-
-        <label for="correo">Correo electrónico</label>
-        <input type="email" id="correo" name="correo" required />
-
-        <label for="pais">País</label>
-        <input type="text" id="pais" name="pais" required />
-
-        <button type="submit">Enviar</button>
-      </form>
-    </div>
-  </div>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const overlay = document.getElementById("formularioOverlay");
-      const cerrar = document.getElementById("cerrarFormulario");
-      const abrir1 = document.getElementById("abrirFormulario");
-      const abrir2 = document.getElementById("abrirFormulario2");
-
-      [abrir1, abrir2].forEach((btn) => {
-        if (btn) btn.addEventListener("click", () => overlay.classList.remove("oculto"));
-      });
-
-      if (cerrar) cerrar.addEventListener("click", () => overlay.classList.add("oculto"));
-      overlay.addEventListener("click", (e) => {
-        if (e.target === overlay) overlay.classList.add("oculto");
-      });
+    [abrir1, abrir2].forEach((btn) => {
+      if (btn) btn.addEventListener("click", () => overlay.classList.remove("oculto"));
     });
-  </script>
+
+    if (cerrar) cerrar.addEventListener("click", () => overlay.classList.add("oculto"));
+    overlay.addEventListener("click", (e) => {
+      if (e.target === overlay) overlay.classList.add("oculto");
+    });
+  });
+
+  // Enviar datos al Google Sheet
+  document.getElementById("leadForm").addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const nombre = document.getElementById("nombre").value;
+    const correo = document.getElementById("correo").value;
+    const pais = document.getElementById("pais").value;
+
+    const formData = new URLSearchParams();
+    formData.append("nombre", nombre);
+    formData.append("correo", correo);
+    formData.append("pais", pais);
+
+    try {
+      await fetch("https://script.google.com/macros/s/AKfycby_AuO0EKEdir15DHzYm29nHZ3RSKmjfxit5t47rFektETZI1wpjhoJ_8uwZbdyH6ue7Q/exec", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: formData.toString()
+      });
+
+      alert("¡Gracias! Te contactaremos pronto.");
+      e.target.reset();
+      document.getElementById("formularioOverlay").classList.add("oculto");
+    } catch (err) {
+      console.error("Error al enviar:", err);
+      alert("Error al enviar el formulario.");
+    }
+  });
+</script>
+
+
+
+    <h1>RESPONDE TUS RESEÑAS AUTOMATICAMENTE</h1>
+    <div class="contenedor">
+        <div class="texto" style="text-align: left;">
+            <h3>¿Las estas respondiendo bien?</h3>
+            <p>Respondemos automáticamente todas tus reseñas online con el tono ideal, para que mejores tu reputación
+                sin perder tiempo.</p>
+        </div>
+        <div class="imagen">
+            <img src="img/imgRese.png">
+        </div>
+    </div>
+    <button id="abrirFormulario" class="btnPrueba">PRUEBA GRATIS !</button>
+
+    <div class="info">
+        <!--<h2>TITULO</h2>-->
+        <section class="problema-solucion">
+            <div class="item problema">
+                <h4>Ignorar reseñas cuesta clientes</h4>
+                <ul>
+                    <li>El 87% de los comensales lee reseñas antes de reservar.</li>
+                    <li>Si no respondes o lo háces mal, estás perdiendo confianza, visibilidad y ventas.</li>
+                </ul>
+            </div>
+            <div class="item solucion">
+                <h4>Respuestas automáticas, profesionales y con tu estilo.</h4>
+                <ul>
+                    <li>Detectamos cada nueva reseña en Google.</li>
+                    <li>La clasificamos (positiva, neutra, negativa).</li>
+                    <li>Generamos una respuesta personalizada y respetuosa.</li>
+                    <li>Tú la apruebas o la enviamos directo, según el plan.</li>
+                </ul>
+            </div>
+        </section>
+    </div>
+    <section class="pasos-container">
+        <div class="paso">
+            <img src="img/cromo.png" alt="Conectás tu perfil de Google">
+            <p>1. Conectas tu perfil de Google.</p>
+        </div>
+        <div class="paso">
+            <img src="img/mensaje.png" alt="Elegís el tono de tus respuestas">
+            <p>2. Eliges el tono de tus respuestas.</p>
+        </div>
+        <div class="paso">
+            <img src="img/servicio-al-cliente.png" alt="Nosotros respondemos por vos">
+            <p>3. Nosotros respondemos por tí.</p>
+        </div>
+    </section>
+    <!--
+    <div class="info">
+        Ejemplo de las reseñas de mi bar
+    </div>
+    -->
+    <div class="CtaFinal">
+        <button id="abrirFormulario2" class="btnPrueba">Pruebalo gratis antes del lanzamiento</button>
+    </div>
+
 </body>
+
 </html>
