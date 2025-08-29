@@ -25,6 +25,7 @@ h1 {
 
 .texto {
   flex: 1;
+  text-align: left;
 }
 
 .imagen img {
@@ -38,7 +39,7 @@ h1 {
 
 
 .btnPrueba {
-  margin-top: 30px;
+  margin-top: 30px auto;
   background-color: #7aabfb;
   color: white;
   padding: 10px;
@@ -141,7 +142,7 @@ h1 {
 
 /*CSS DEL FORMULARIO*/
 .oculto{
-  display: none;
+  display: none !important;
 }
 
 .overlay{
@@ -155,6 +156,7 @@ h1 {
   justify-content: center;
   align-items: center;
   z-index: 999;
+
 }
 
 .formulario-popup{
